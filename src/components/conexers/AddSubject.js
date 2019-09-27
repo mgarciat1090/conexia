@@ -1,87 +1,150 @@
 import React, { Component } from 'react';
+import { Consumer } from '../../context';
+import uuid from 'uuid';
+import TextInputGroup from '../layout/TextInputGroup';
 
 class AddSubject extends Component{
-
-
-	constructor(props){
-		super(props);
-
-		this.nameInput = React.createRef();
-		this.emailInput = React.createRef();
-		this.phoneInput = React.createRef();
+	state = {
+		name: '',
+		email: '',
+		phone: '',
+		area: '',
+		interests: '',
+		errors:{}
 	}
 
-	onSubmit = (e) => {
+	onChange = e => this.setState({ [e.target.name]: e.target.value });
+		
+	onSubmit = (dispatch,e) => {
 		e.preventDefault();
-		const contact = {
-			name: this.nameInput.current.value,
-			email: this.emailInput.current.value,
-			phone: this.phoneInput.current.value
+		const {name,email,phone,area,interests} = this.state;
+
+
+		if(name === ''){
+			this.setState({ errors:{name:'Name is required'} })
+			return;
 		}
 
-		console.log(contact);
-	}
+		if(email === ''){
+			this.setState({ errors:{email:'Email is required'} })
+			return;
+		}
 
-	static defaultProps = {
-		name: 'Fred Mercury',
-		email: 'queen@gmail.com',
-		phone: '7777777777'
+		if(phone === ''){
+			this.setState({ errors:{phone:'Phone is required'} })
+			return;
+		}
+
+		if(area === ''){
+			this.setState({ errors:{area:'Area is required'} })
+			return;
+		}
+
+		if(interests === ''){
+			this.setState({ errors:{interests:'Interests is required'} })
+			return;
+		}
+
+		const newSubject = {
+			id: uuid(),
+			name,
+			email,
+			phone,
+			area,
+			interests
+		}
+
+		dispatch({ type:'ADD_SUBJECT',payload:newSubject })
+
+		// Clear State
+		this.setState({
+			name: '',
+			email: '',
+			phone: '',
+			area: '',
+			interests: '',
+			errors : {}
+		})
 	}
 
 	render(){
-		const { name, email, phone } = this.props;
+		const { name, email, phone,area,interests,errors } = this.state;
+
 		return (
-			<div className="container">
-				<div className="col-sm-12">
-					<div className="card mb-3">
-						<div className="card-header">
-							Add Contact
-						</div>
-						<div className="card-body">
-							<form onSubmit={this.onSubmit} >
-								<div className="form-group">
-									<label htmlFor="name">Name</label>
-									<input 
-										className="form-control form-control-lg"
-										type="text"
-										placeholder="Enter Name..."
-										name="name"
-										defaultValue={name}
-										ref={this.nameInput}
-									/>
-								</div>
+			<Consumer>
+				{value => {
+					const { dispatch } = value;
+					return(
+						<div className="container">
+							<div className="col-sm-12">
+								<div className="card mb-3">
+									<div className="card-header">
+										Add Subject
+									</div>
+									<div className="card-body">
+										<form onSubmit={this.onSubmit.bind(this,dispatch)} >
+											
+											<TextInputGroup 
+												label="Name"
+												name="name"
+												placeholder="Enter Name"
+												value={name}
+												onChange={this.onChange}
+												error={errors.name}
+											/>
 
-								<div className="form-group">
-									<label htmlFor="email">Email</label>
-									<input 
-										className="form-control form-control-lg"
-										type="email"
-										placeholder="Enter Email..."
-										name="email"
-										defaultValue={email}
-										ref={this.emailInput}
-									/>
-								</div>
+											<TextInputGroup 
+												label="Email"
+												name="email"
+												placeholder="Enter Email"
+												value={email}
+												onChange={this.onChange}
+												error={errors.email}
+											/>
 
-								<div className="form-group">
-									<label htmlFor="phone">Phone</label>
-									<input 
-										className="form-control form-control-lg"
-										type="text"
-										placeholder="Enter Phone..."
-										name="phone"
-										defaultValue={phone}
-										ref={this.phoneInput}
-									/>
+											<TextInputGroup 
+												label="Phone"
+												name="phone"
+												placeholder="Enter Phone"
+												value={phone}
+												onChange={this.onChange}
+												error={errors.phone}
+											/>
+											
+											<TextInputGroup 
+												label="Area"
+												name="area"
+												placeholder="Enter your Work Area"
+												value={area}
+												onChange={this.onChange}
+												error={errors.area}
+											/>
+
+
+											<div className="form-group">
+												<label htmlFor="interests">Interests</label>
+												<textarea
+													className="form-control form-control-lg"
+													placeholder="Enter your professional interests"
+													name="interests"
+													value={interests}
+													onChange={this.onChange}
+													errors={errors.interests}
+													>
+												</textarea>
+											</div>
+
+											<input type="submit" 
+											value="Add Subject" 
+											className="btn btn-light btn-block" />
+										</form>
+									</div>
 								</div>
-								<input type="submit" 
-								value="Add Contact" 
-								className="btn btn-light btn-block" />
-							</form>
+							</div>
 						</div>
-					</div>
-				</div>
-			</div>
+					)
+				}}
+			</Consumer>
 		)
 
 	}
