@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Consumer } from '../../context';
-import uuid from 'uuid';
 import TextInputGroup from '../layout/TextInputGroup';
+import axios from 'axios';
 
 class AddSubject extends Component{
 	state = {
@@ -46,7 +46,6 @@ class AddSubject extends Component{
 		}
 
 		const newSubject = {
-			id: uuid(),
 			name,
 			email,
 			phone,
@@ -54,7 +53,7 @@ class AddSubject extends Component{
 			interests
 		}
 
-		dispatch({ type:'ADD_SUBJECT',payload:newSubject })
+		axios.post('https://jsonplaceholder.typicode.com/users',newSubject).then(res => dispatch({ type:'ADD_SUBJECT',payload:res.data }))
 
 		// Clear State
 		this.setState({
@@ -64,7 +63,10 @@ class AddSubject extends Component{
 			area: '',
 			interests: '',
 			errors : {}
-		})
+		});
+
+		this.props.history.push('/conexers');
+
 	}
 
 	render(){

@@ -5,6 +5,9 @@ import { Provider } from './context'
 
 import  Conexers  from './components/conexers/Conexers';
 import AddSubject from './components/conexers/AddSubject';
+import NotFound from './components/pages/NotFound';
+import Test from './components/test/test';
+
 
 class App extends React.Component {
   constructor(props){
@@ -30,7 +33,7 @@ function BasicExample(){
     <Router>
     <div className="container-fluid">
         <div className="navbar navbar-expand-lg navbar-light bg-light">
-          <a className="navbar-brand">Conexia</a>
+          <button className=" btn  navbar-brand">Conexia</button>
           <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
           </button>
@@ -63,6 +66,8 @@ function BasicExample(){
         <Route path="/topics" component={Topics} />
         <Route path="/add-subject" component={AddSubject} />
         <Route path="/conexers" component={Conexers} />
+        <Route path="/test" component={Test} />
+        <Route path="/not-found" component={NotFound} />
       </Provider>
     </Router>
   );

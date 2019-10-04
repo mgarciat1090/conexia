@@ -2,15 +2,17 @@ import React, { Component } from 'react';
 import './Subject.css'
 import PropTypes from 'prop-types';
 import { Consumer } from '../../context';
+import axios from 'axios';
 
 class Subject extends Component{
 	state = {
-		showContactInfo: true
+		showContactInfo: false
 
 	};
 
 	onDeleteClick = (id,dispatch) => {
-		dispatch({type:'DELETE_SUBJECT',payload:id});
+		axios.delete(`https://jsonplaceholder.typicode.com/users/${id}`)
+			.then(res => dispatch({type:'DELETE_SUBJECT',payload:id}))
 	}
 
 	onShowClick = () => {
@@ -41,6 +43,8 @@ class Subject extends Component{
 								{ showContactInfo ? (
 										<ul className="list-group">
 											<li className="list-group-item">Email: {this.props.email}
+											</li>
+											<li className="list-group-item">Phone: {this.props.phone}
 											</li>
 											<li className="list-group-item">Area: {this.props.area}
 											</li>

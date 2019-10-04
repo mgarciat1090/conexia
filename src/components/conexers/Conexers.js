@@ -22,6 +22,7 @@ class Conexers extends Component{
 			      				id={subject.id}
 										name={subject.name}
 										email={subject.email}
+										phone={subject.phone}
 										area={subject.area}
 										interests={subject.interests}
 										></Subject>
@@ -44,8 +45,8 @@ Subject.propTypes = {
 	
 	name: PropTypes.string.isRequired,
 	email: PropTypes.string.isRequired,
-	area: PropTypes.string.isRequired,
-	interests: PropTypes.string.isRequired
+	area: PropTypes.string,
+	interests: PropTypes.string
 
 }
 export default Conexers;
