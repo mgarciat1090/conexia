@@ -16,6 +16,12 @@ const reducer = (state,action) => {
 				subjects: [action.payload,
 				...state.subjects]
 			};
+		case 'UPDATE_SUBJECT':
+			return {
+				...state,
+				subjects: state.subjects.map(subject => 
+					subject.id === action.payload.id ? (subject = action.payload):subject)
+			}
 			default:
 				return state;
 	}
@@ -29,9 +35,10 @@ export class Provider extends Component {
 
 	}
 
-	componentDidMount(){
-		axios.get('https://jsonplaceholder.typicode.com/users')
-		.then(res => this.setState({subjects:res.data}))
+	async componentDidMount(){
+		const res = await axios.get('https://jsonplaceholder.typicode.com/users');
+
+		this.setState({ subjects : res.data });
 	}
 
 	render(){

@@ -5,6 +5,7 @@ import { Provider } from './context'
 
 import  Conexers  from './components/conexers/Conexers';
 import AddSubject from './components/conexers/AddSubject';
+import EditSubject from './components/conexers/EditSubject';
 import NotFound from './components/pages/NotFound';
 import Test from './components/test/test';
 
@@ -65,6 +66,7 @@ function BasicExample(){
         <Route path="/about" component={About} />
         <Route path="/topics" component={Topics} />
         <Route path="/add-subject" component={AddSubject} />
+        <Route path="/edit/:id" component={EditSubject} />
         <Route path="/conexers" component={Conexers} />
         <Route path="/test" component={Test} />
         <Route path="/not-found" component={NotFound} />

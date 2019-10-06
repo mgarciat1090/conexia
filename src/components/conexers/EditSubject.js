@@ -3,7 +3,7 @@ import { Consumer } from '../../context';
 import TextInputGroup from '../layout/TextInputGroup';
 import axios from 'axios';
 
-class AddSubject extends Component{
+class EditSubject extends Component{
 	state = {
 		name: '',
 		email: '',
@@ -11,6 +11,17 @@ class AddSubject extends Component{
 		area: '',
 		interests: '',
 		errors:{}
+	}
+
+	async componentDidMount(){
+		const { id } = this.props.match.params;
+		const res = await axios.get(`https://jsonplaceholder.typicode.com/users/${id}`);
+		const subject = res.data;
+		this.setState({
+			name: subject.name,
+			email: subject.email,
+			phone: subject.phone
+		});
 	}
 
 	onChange = e => this.setState({ [e.target.name]: e.target.value });
@@ -45,17 +56,17 @@ class AddSubject extends Component{
 			return;
 		}
 
-		const newSubject = {
+		const updSubject = {
 			name,
 			email,
-			phone,
-			area,
-			interests
+			phone
+
 		}
 
-		const res = await axios.post('https://jsonplaceholder.typicode.com/users',newSubject);
+		const { id } = this.props.match.params;
+		const res = await axios.put(`https://jsonplaceholder.typicode.com/users/${id}`,updSubject);
+		dispatch({type:'UPDATE_SUBJECT',payload:res.data});
 
-		dispatch({ type:'ADD_SUBJECT',payload:res.data });
 
 		// Clear State
 		this.setState({
@@ -83,7 +94,7 @@ class AddSubject extends Component{
 							<div className="col-sm-12">
 								<div className="card mb-3">
 									<div className="card-header">
-										Add Subject
+										Edit Subject
 									</div>
 									<div className="card-body">
 										<form onSubmit={this.onSubmit.bind(this,dispatch)} >
@@ -139,7 +150,7 @@ class AddSubject extends Component{
 											</div>
 
 											<input type="submit" 
-											value="Add Subject" 
+											value="Update Subject" 
 											className="btn btn-light btn-block" />
 										</form>
 									</div>
@@ -154,4 +165,4 @@ class AddSubject extends Component{
 	}
 }
 
-export default AddSubject;
+export default EditSubject;
