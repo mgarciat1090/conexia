@@ -8,7 +8,7 @@
     "bootstrap": "^4.3.1",
     "classnames": "^2.2.6",
     "flow-bin": "^0.104.0",
-    "node-sass": "^4.12.0",
+    "node-sass": "^4.13.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-router-dom": "^5.1.0",
